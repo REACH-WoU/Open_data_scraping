@@ -5,17 +5,40 @@ from urllib.parse import urljoin
 import pandas as pd
 
 # Create a folder for images
-IMAGE_FOLDER = "images_elevators"
-os.makedirs(IMAGE_FOLDER, exist_ok=True)
+image_folder = "image_folder_name"
+os.makedirs(image_folder, exist_ok=True)
+
+#Chose the category of news from list:
+"""
+Зерно - zerno, 
+Сільгосптехніка - selhoztehnika,
+Елеватори - elevatory,
+Тваринництво - zhivotnovodstvo,
+Компанії - kompanii,
+Агрономія - agronomiya,
+Транспорт - transport,
+Світ - mir,
+Загальні - ukraina
+"""
+category = "category_name"
+
+# Base URL format with page number
+base_url = f"https://tripoli.land/ua/news/{category}?category_slug={category}&page={{}}"
+
+#Base url for all news for news categories
+#base_url = f"https://tripoli.land/ua/news?page={{}}"
+
+#Last page number
+last_page = 100
+
+#Name of output
+file_name = "file_name.xlsx"
+
 
 # Headers to prevent blocking
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
 }
-
-# Base URL format with page number
-BASE_URL = "https://tripoli.land/ua/news/elevatory?category_slug=elevatory&page={}"
-
 
 # Function to get the HTML content of a page
 def get_soup(url):
@@ -30,8 +53,8 @@ def get_soup(url):
 news_links = set()  # Use a set to store unique news links
 
 # Collect news links from pages (range should be on one number bigger than last page number)
-for page in range(1, 34):
-    current_url = BASE_URL.format(page)
+for page in range(1, last_page + 1):
+    current_url = base_url.format(page)
     print(f"Fetching page: {current_url}")
 
     soup = get_soup(current_url)
@@ -43,7 +66,7 @@ for page in range(1, 34):
     for element in article_elements:
         href = element.get("href")
         if href:
-            full_link = urljoin(BASE_URL, href)
+            full_link = urljoin(base_url, href)
             news_links.add(full_link)  # Set automatically removes duplicates
 
 print(f"Found {len(news_links)} unique news articles.")
@@ -80,7 +103,7 @@ for news_id, link in enumerate(news_links, start=1):  # Assign unique IDs sequen
             response = requests.get(image_url, headers=HEADERS, stream=True)
             if response.status_code == 200:
                 image_filename = f"{news_id}.jpg"  # Save image as ID.jpg
-                image_path = os.path.join(IMAGE_FOLDER, image_filename)
+                image_path = os.path.join(image_folder, image_filename)
 
                 with open(image_path, "wb") as file:
                     for chunk in response.iter_content(1024):
@@ -105,6 +128,6 @@ for news_id, link in enumerate(news_links, start=1):  # Assign unique IDs sequen
 
 # Save data to Excel file
 df = pd.DataFrame(news_data)
-df.to_excel("elevators_news.xlsx", index=False)
+df.to_excel(file_name, index=False)
 
-print("✅ Data saved to file elevators_news.xlsx")
+print(f"✅ Data saved to file {file_name}")
