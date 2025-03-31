@@ -19,3 +19,29 @@ For using you should:
 
 
 # elevators_news_bs4.py
+Script is taking news from https://tripoli.land/ua with pictures for each.
+After running it you will have the output with folder with images and excel file with columns:
+- ID - unique id of each news;
+- Title;
+- Publication Date;
+- Text;
+- Image File - the name of image file (the same number as ID);
+- Link.
+
+For using you should:
+
+- Name te image folder (into image_folder)
+- Select news category name from list and put into category (if you need take all news change to the second base link):
+Зерно - zerno, 
+Сільгосптехніка - selhoztehnika,
+Елеватори - elevatory,
+Тваринництво - zhivotnovodstvo,
+Компанії - kompanii,
+Агрономія - agronomiya,
+Транспорт - transport,
+Світ - mir,
+Загальні - ukraina
+- Indicate the number of the last page with news into last_page,
+- Name the output file (file_name)
+
+
