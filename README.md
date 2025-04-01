@@ -44,4 +44,18 @@ For using you should:
 - Indicate the number of the last page with news into last_page,
 - Name the output file (file_name)
 
+# data_isuo.py
 
+Script taking data for education facilities for hromada from https://isuo.org/.
+As a result of running script you will have excel file with max 5 sheets:
+- Sheet 1 - general information about education department of hromada;
+- Schools;
+- Kindergartens;
+- Out of school intitutions;
+- Inclusive centers.
+
+For using you should:
+- Find you hromada on ISUO;
+- Put the name of oblast level education department into oblast (like ДОН Дніпропетровської ОДА);
+- Put tne name of hromada level education department into hromada (like Царичанська СТГ)
+- Name your output file (file_name)
